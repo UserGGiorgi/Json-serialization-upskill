@@ -1,93 +1,107 @@
-# json-serialization-upskill
+# JSON Serialization
+
+Beginner level task for practicing JSON serialization.
+
+Estimated time to complete the task - 1h.
+
+The task requires .NET 8 SDK installed.
 
 
+## Task Description
 
-## Getting started
+JSON Serialization in .NET is the process of converting the state of an object, that is, the values of its properties, into a form that can be stored or transmitted, Read [JSON Serialization](https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/overview) article before starting the task.
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+### 1. Customize JSON Properties.
 
-## Add your files
+Read the [How to customize property names and values with System.Text.Json](https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/customize-properties) article.
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+Apply attributes to the properties of the [Employee](JsonSerialization/Employee.cs) class to set the JSON property name and the order of serialized properties.
 
+| Property Name | JSON Property Name | JSON Property Order |
+|---------------|--------------------|---------------------|
+| Id            | employee_id        | 1                   |
+| Name          | employee_name      | 4                   |
+| Age           | employee_age       | 3                   |
+| Role          | employee_role      | 2                   |
+
+Apply the [JsonPropertyName](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.serialization.jsonpropertynameattribute) attributes to set the name of individual properties.
+
+```cs
+public class Employee
+{
+    [JsonPropertyName("employee_name")]
+    public string? Name { get; set; }
+
+    ...
+}
 ```
-cd existing_repo
-git remote add origin https://autocode.git.epam.com/dotnet-tasks/data-formats/net8/json-serialization-upskill.git
-git branch -M main
-git push -uf origin main
+
+Apply the [JsonPropertyOrder](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.serialization.jsonpropertyorderattribute) attributes to specify the property order that is present in the JSON when serializing.
+
+```cs
+public class Employee
+{
+    [JsonPropertyName("employee_name")]
+    [JsonPropertyOrder(4)]
+    public string? Name { get; set; }
+
+    ...
+}
 ```
 
-## Integrate with your tools
 
-- [ ] [Set up project integrations](https://autocode.git.epam.com/dotnet-tasks/data-formats/net8/json-serialization-upskill/-/settings/integrations)
+### 1.1. Serialization of Object to Json.
 
-## Collaborate with your team
+Implement the [SerializeObjectToJson](JsonSerialization/JsonSerializationOperations.cs#L10) method, so it could return JSON string. Use the [Serialize](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.jsonserializer.serialize) method that returns JSON string from object.
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
 
-## Test and Deploy
+### 1.2. Deserialization of Json to Object.
 
-Use the built-in continuous integration in GitLab.
+Implement the [DeserializeJsonToObject](JsonSerialization/JsonSerializationOperations.cs#L16) method, so it could return object. Use the [Deserialize](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.jsonserializer.deserialize) method that returns JSON string from object.
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
 
-***
+#### 2. Customize JSON Properties
 
-# Editing this README
+Apply attributes to the properties of the [Company](JsonSerialization/Company.cs) class to set the JSON property name and the order of serialized properties.
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+| Property Name   | JSON Property Name       | JSON Property Order | JSON Ignore|
+|-----------------|--------------------------|---------------------|------------|
+| Name            | company_name             | 1                   | No         |
+| EstablishedYear | company_established_year | 2                   | No         |
+| EmployeeCount   | company_employee_count   | 3                   | No         |
+| Domains         | company_domains          | 4                   | No         |
+| CompanyType     | company_company_type     | 5                   | No         |
+| IgnoreProperty  |                          |                     | Yes        |
 
-## Suggestions for a good README
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+#### 2.1. Serialization of Object to Json with Enum and Dictonories properties.
 
-## Name
-Choose a self-explaining name for your project.
+Implement the [SerializeCompanyObjectToJson](JsonSerialization/JsonSerializationOperations.cs#L22) method, so it could return Json string. Use the [Serialize](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.jsonserializer.serialize) method that returns Json string from object.
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+#### 2.2. Deserialization of Json to Object with Enum and Dictonories properties.
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+Implement the [DeserializeCompanyJsonToObject](JsonSerialization/JsonSerializationOperations.cs#L28) method, so it could return object. Use the [Deserialize](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.jsonserializer.deserialize) method that returns Json string from object.
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+#### 2.3. Serialize the Dictionary properties by using the JsonNamingPolicy class options to convert Pascal case naming to Camel case attributes.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+Implement the [SerializeDictionary](JsonSerialization/JsonSerializationOperations.cs#L34) method, so it could return dictionary attributes in Camel case. [JsonNamingPolicy](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.jsonnamingpolicy) this used to convert a string-based name to another format, such as a camel-casing format.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+#### 2.4. Serialize the Enum properties by using the JsonStringEnumConverter class to Converts enumeration values to and from strings.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+Implement the [SerializeEnum](JsonSerialization/JsonSerializationOperations.cs#L44) method, so it could return enum attributes. [JsonStringEnumConverter](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.serialization.jsonstringenumconverter) this used to Converts enumeration values to and from strings.
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+##### See also
 
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+* C# Language Reference
+  * https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/overview
+  * https://learn.microsoft.com/en-us/dotnet/standard/serialization/
+  * https://learn.microsoft.com/en-us/dotnet/api/system.text.json
+  * https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/configure-options?pivots
+  * https://learn.microsoft.com/en-us/dotnet/standard/serialization/examples-of-xml-serialization
+  * https://learn.microsoft.com/en-us/dotnet/standard/serialization/how-to-serialize-an-object
+  * https://learn.microsoft.com/en-us/dotnet/standard/serialization/how-to-deserialize-an-object

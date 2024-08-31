@@ -26,7 +26,13 @@ public static class JsonSerializationOperations
     {
         ArgumentNullException.ThrowIfNull(obj);
 
-        return JsonSerializer.Serialize(obj);
+        var options = new JsonSerializerOptions
+        {
+            WriteIndented = false, // Ensure compact JSON without newlines
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+        };
+
+        return JsonSerializer.Serialize(obj, options);
     }
 
     public static T? DeserializeCompanyJsonToObject<T>(string json)

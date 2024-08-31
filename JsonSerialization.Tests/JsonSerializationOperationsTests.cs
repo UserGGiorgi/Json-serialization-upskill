@@ -135,6 +135,7 @@ public class JsonSerializationOperationsTests
         Assert.That(actual, Is.EqualTo(expected));
     }
 
+
     [TestCaseSource(nameof(DeserializeCompanyJsonToObjectData))]
     public void DeserializeJsonToObject_WithCompanyJson_ReturnsObject(string json, Company expected)
     {

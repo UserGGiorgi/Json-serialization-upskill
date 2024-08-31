@@ -1,3 +1,7 @@
+using System.Globalization;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
 [assembly: CLSCompliant(true)]
 
 namespace JsonSerialization;
@@ -6,37 +10,75 @@ public static class JsonSerializationOperations
 {
     public static string SerializeObjectToJson(object obj)
     {
-        // TODO Implement the method.
-        throw new NotImplementedException();
+        ArgumentNullException.ThrowIfNull(obj);
+
+        return JsonSerializer.Serialize(obj);
     }
 
     public static T? DeserializeJsonToObject<T>(string json)
     {
-        // TODO Implement the method.
-        throw new NotImplementedException();
+        ArgumentNullException.ThrowIfNull(json);
+
+        return JsonSerializer.Deserialize<T>(json);
     }
 
     public static string SerializeCompanyObjectToJson(object obj)
     {
-        // TODO Implement the method.
-        throw new NotImplementedException();
+        ArgumentNullException.ThrowIfNull(obj);
+
+        return JsonSerializer.Serialize(obj);
     }
 
     public static T? DeserializeCompanyJsonToObject<T>(string json)
     {
-        // TODO Implement the method.
-        throw new NotImplementedException();
+        ArgumentNullException.ThrowIfNull(json);
+
+        return JsonSerializer.Deserialize<T>(json);
     }
 
     public static string SerializeDictionary(Company obj)
     {
-        // TODO Implement the method.
-        throw new NotImplementedException();
+        ArgumentNullException.ThrowIfNull(obj);
+
+        var options = new JsonSerializerOptions
+        {
+            Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) },
+            WriteIndented = false,
+        };
+
+        var domainsDict = obj.Domains;
+
+        if (domainsDict == null)
+        {
+            return "{}";
+        }
+
+        var camelCaseDict = domainsDict.ToDictionary(
+            kvp => ToCamelCase(kvp.Key),
+            kvp => kvp.Value);
+
+        return JsonSerializer.Serialize(camelCaseDict, options);
     }
 
     public static string SerializeEnum(Company obj)
     {
-        // TODO Implement the method.
-        throw new NotImplementedException();
+        ArgumentNullException.ThrowIfNull(obj);
+
+        var options = new JsonSerializerOptions
+        {
+            Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) },
+        };
+
+        return JsonSerializer.Serialize(obj, options);
+    }
+
+    private static string ToCamelCase(string value)
+    {
+        if (string.IsNullOrEmpty(value) || !char.IsUpper(value[0]))
+        {
+            return value;
+        }
+
+        return char.ToLower(value[0], CultureInfo.InvariantCulture) + value[1..];
     }
 }

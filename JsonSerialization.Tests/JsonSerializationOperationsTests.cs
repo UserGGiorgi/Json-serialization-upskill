@@ -7,28 +7,25 @@ namespace JsonSerialization.Tests;
 [TestFixture]
 public class JsonSerializationOperationsTests
 {
-    private static readonly object[][] SerializeEmployeeToJsonData = new object[][]
-    {
-        new object[]
-        {
+    private static readonly object[][] SerializeEmployeeToJsonData =
+    [
+        [
             new Employee { Id = 1, Name = "Sharath", Age = 22, Role = "Junior Software Engineer" },
             @"{""employee_id"":1,""employee_role"":""Junior Software Engineer"",""employee_age"":22,""employee_name"":""Sharath""}"
-        },
-    };
+        ],
+    ];
 
-    private static readonly object[][] DeserializeEmployeeJsonToObjectData = new object[][]
-    {
-        new object[]
-        {
+    private static readonly object[][] DeserializeEmployeeJsonToObjectData =
+    [
+        [
             @"{""employee_id"":1,""employee_name"":""Sharath"",""employee_age"":22,""employee_role"":""Junior Software Engineer""}",
             new Employee { Id = 1, Name = "Sharath", Age = 22, Role = "Junior Software Engineer" }
-        },
-    };
+        ],
+    ];
 
-    private static readonly object[][] SerializeCompanyToJsonData = new object[][]
-    {
-        new object[]
-        {
+    private static readonly object[][] SerializeCompanyToJsonData =
+    [
+        [
             new Company
             {
                 Name = "EPAM",
@@ -44,13 +41,12 @@ public class JsonSerializationOperationsTests
                     }
             },
             @"{""company_name"":""EPAM"",""company_established_year"":1993,""company_employee_count"":38000,""company_domains"":{""CloudComputing"":1,""JavaTechnologies"":2,""ArtificialIntelligence"":3},""company_company_type"":1}"
-        },
-    };
+        ],
+    ];
 
-    private static readonly object[][] DeserializeCompanyJsonToObjectData = new object[][]
-    {
-        new object[]
-        {
+    private static readonly object[][] DeserializeCompanyJsonToObjectData =
+    [
+        [
             @"{""company_name"":""EPAM"",""company_established_year"":1993,""company_employee_count"":38000,""company_domains"":{""CloudComputing"":1,""JavaTechnologies"":2,""ArtificialIntelligence"":3},""company_company_type"":1}",
             new Company
             {
@@ -63,13 +59,12 @@ public class JsonSerializationOperationsTests
                     { "CloudComputing", 1 }, { "JavaTechnologies", 2 }, { "ArtificialIntelligence", 3 }
                 }
             }
-        },
-    };
+        ],
+    ];
 
-    private static readonly object[][] SerializeCompanyDomainToJsonData = new object[][]
-    {
-        new object[]
-        {
+    private static readonly object[][] SerializeCompanyDomainToJsonData =
+    [
+        [
             new Company
             {
                 Name = "EPAM",
@@ -82,13 +77,12 @@ public class JsonSerializationOperationsTests
                 }
             },
             @"{""cloudComputing"":1,""javaTechnologies"":2,""artificialIntelligence"":3}"
-        },
-    };
+        ],
+    ];
 
-    private static readonly object[][] SerializeCompanyTypeToObjectData = new object[][]
-    {
-        new object[]
-        {
+    private static readonly object[][] SerializeCompanyTypeToObjectData =
+    [
+        [
             new Company
             {
                 Name = "EPAM",
@@ -104,8 +98,8 @@ public class JsonSerializationOperationsTests
                     }
             },
             @"{""company_name"":""EPAM"",""company_established_year"":1993,""company_employee_count"":38000,""company_domains"":{""CloudComputing"":1,""JavaTechnologies"":2,""ArtificialIntelligence"":3},""company_company_type"":""softwareServices""}"
-        },
-    };
+        ],
+    ];
 
     [TestCaseSource(nameof(SerializeEmployeeToJsonData))]
     public void SerializeObjectToJson_ReturnsJson(object obj, string expected)
@@ -172,3 +166,4 @@ public class JsonSerializationOperationsTests
         Assert.That(actual, Is.EqualTo(expected));
     }
 }
+

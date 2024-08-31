@@ -35,11 +35,11 @@ public static class JsonSerializationOperations
         return JsonSerializer.Serialize(obj, options);
     }
 
-    public static T? DeserializeCompanyJsonToObject<T>(string json)
+    public static T? DeserializeCompanyJsonToObject<T>(string companyJson)
     {
-        ArgumentNullException.ThrowIfNull(json);
+        ArgumentNullException.ThrowIfNull(companyJson);
 
-        return JsonSerializer.Deserialize<T>(json);
+        return JsonSerializer.Deserialize<T>(companyJson);
     }
 
     public static string SerializeDictionary(Company obj)
